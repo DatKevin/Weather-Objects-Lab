@@ -1232,7 +1232,7 @@ let getCity = (pickedCity) => {
 getCity("Evanston")
 
 ///2.
-let getdate = (month,day,time) => {    
+let getbyDate = (month,day,time) => {    
     for (let i = 0; i < evanstonWeather["list"].length; i++) {
         if (evanstonWeather["list"][i]["dt_txt"] == "2018-" + month
             +"-" + day + " " + time + ":00") {
@@ -1245,4 +1245,5 @@ let getdate = (month,day,time) => {
     }
 
 }
-getdate("03","20","18:00")
+getbyDate("03","20","18:00")
+getbyDate("03","20","09:00")
