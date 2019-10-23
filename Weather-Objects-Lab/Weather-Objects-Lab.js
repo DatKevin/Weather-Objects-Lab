@@ -1231,19 +1231,73 @@ let getCity = (pickedCity) => {
 }
 getCity("Evanston")
 
-///2.
-let getbyDate = (month,day,time) => {    
+///2. and 3.
+let getWeather = (month,day,time) => {    
     for (let i = 0; i < evanstonWeather["list"].length; i++) {
         if (evanstonWeather["list"][i]["dt_txt"] == "2018-" + month
             +"-" + day + " " + time + ":00") {
             console.log("The weather for today, " + month + "/" + day + "/2018, "
                 + "is " + evanstonWeather["list"][i]["weather"][0]["description"] 
-                + " with highs of " + Math.round((evanstonWeather["list"][i]["main"]["temp_max"]
-                - 273.15)) + " degrees Celsius and lows of " + Math.round((evanstonWeather["list"][i]
+                + " with highs of about " + Math.round((evanstonWeather["list"][i]["main"]["temp_max"]
+                - 273.15)) + " degrees Celsius and lows of about " + Math.round((evanstonWeather["list"][i]
                 ["main"]["temp_min"] - 273.15)) + " degrees Celsius")
         }
     }
 
 }
-getbyDate("03","20","18:00")
-getbyDate("03","20","09:00")
+getWeather("03","20","18:00")
+getWeather("03","20","09:00")
+
+///4. 
+
+let getWind = (month,day,time) => {    
+    for (let i = 0; i < evanstonWeather["list"].length; i++) {
+        if (evanstonWeather["list"][i]["dt_txt"] == "2018-" + month
+            +"-" + day + " " + time + ":00") {
+            
+            let speedinMPH = Math.round(evanstonWeather.list[i].wind.speed * 2.237)
+            let cardinalDirection = ""
+
+            if (evanstonWeather.list[i].wind.deg <= 22.5 
+                || evanstonWeather.list[i].wind.deg > 337.5) {
+                cardinalDirection = "N"
+            }
+            if (evanstonWeather.list[i].wind.deg <= 67.5 
+                || evanstonWeather.list[i].wind.deg > 22.5) {
+                cardinalDirection = "NE"
+            }
+            if (evanstonWeather.list[i].wind.deg <= 112.5 
+                || evanstonWeather.list[i].wind.deg > 67.5) { 
+                cardinalDirection = "E"
+            }
+            if (evanstonWeather.list[i].wind.deg <= 157.5 
+                || evanstonWeather.list[i].wind.deg > 112.5) {
+                cardinalDirection = "SE"
+            }
+            if (evanstonWeather.list[i].wind.deg <= 202.5 
+                || evanstonWeather.list[i].wind.deg > 157.5) {
+                cardinalDirection = "S"
+            }
+            if (evanstonWeather.list[i].wind.deg <= 247.5 
+                || evanstonWeather.list[i].wind.deg > 202.5) {
+                cardinalDirection = "SW"
+            }
+            if (evanstonWeather.list[i].wind.deg <= 292.5 
+                || evanstonWeather.list[i].wind.deg > 247.5) { 
+                cardinalDirection = "W"
+            }
+            if (evanstonWeather.list[i].wind.deg <= 337.5 
+                || evanstonWeather.list[i].wind.deg > 292.5) {
+                cardinalDirection = "NW"
+            }
+            else {
+                console.log("???")
+            }
+            console.log("Today, " + month + "/" + day + "/2018, the wind will be going about " 
+                + speedinMPH + "mph blowing approxiamtely " + cardinalDirection)
+        }
+    }
+
+}
+
+getWind("03","20","09:00")
