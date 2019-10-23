@@ -1236,11 +1236,13 @@ let getWeather = (month,day,time) => {
     for (let i = 0; i < evanstonWeather["list"].length; i++) {
         if (evanstonWeather["list"][i]["dt_txt"] == "2018-" + month
             +"-" + day + " " + time + ":00") {
-            console.log("The weather for today, " + month + "/" + day + "/2018, "
+            let maxtemp = Math.round(evanstonWeather["list"][i]["main"]["temp_max"] - 273.15)
+            let mintemp = Math.round(evanstonWeather["list"][i]["main"]["temp_min"] - 273.15)
+            let todaysDate = month + "/" + day + "/2018, "
+            console.log("The weather for today, " + todaysDate
                 + "is " + evanstonWeather["list"][i]["weather"][0]["description"] 
-                + " with highs of about " + Math.round((evanstonWeather["list"][i]["main"]["temp_max"]
-                - 273.15)) + " degrees Celsius and lows of about " + Math.round((evanstonWeather["list"][i]
-                ["main"]["temp_min"] - 273.15)) + " degrees Celsius")
+                + " with highs of about " + maxtemp + " degrees Celsius and lows of about " 
+                + mintemp +" degrees Celsius")
         }
     }
 
@@ -1300,4 +1302,4 @@ let getWind = (month,day,time) => {
 
 }
 
-getWind("03","20","09:00")
+getWind("03","17","15:00")
