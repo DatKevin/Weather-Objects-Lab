@@ -1322,3 +1322,14 @@ let everydayHumidity = () => {
     }
 }
 everydayHumidity()
+
+//6. 
+let daysofweek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+
+for (let i = 0; i < evanstonWeather.list.length; i++) {
+    let day = new Date(evanstonWeather.list[i].dt_txt)
+    let theday = day.getDay()
+    let datetime = evanstonWeather.list[i].dt_txt
+    let split = datetime.split(" ")
+    let date = split[0]
+}
