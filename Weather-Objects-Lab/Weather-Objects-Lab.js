@@ -1303,3 +1303,22 @@ let getWind = (month,day,time) => {
 }
 
 getWind("03","17","15:00")
+
+//5.
+let everydayHumidity = () => {
+    for (let i = 0; i < evanstonWeather["list"].length; i++) {
+        if (evanstonWeather["list"][i]["dt_txt"].includes("12:00:00")) {
+            let datetime = evanstonWeather.list[i].dt_txt
+            let split = datetime.split(" ")
+            let date = split[0]
+            let humid = evanstonWeather.list[i].main.humidity
+            if (humid > 75) {
+                console.log(date + ": " + humid + `% (gross)`) 
+            }
+            else {
+                console.log(date + ": " + humid)
+            }
+        }
+    }
+}
+everydayHumidity()
