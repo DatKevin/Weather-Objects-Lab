@@ -1236,13 +1236,13 @@ let getWeather = (month,day,time) => {
     for (let i = 0; i < evanstonWeather["list"].length; i++) {
         if (evanstonWeather["list"][i]["dt_txt"] == "2018-" + month
             +"-" + day + " " + time + ":00") {
-            let maxtemp = Math.round(evanstonWeather["list"][i]["main"]["temp_max"] - 273.15)
-            let mintemp = Math.round(evanstonWeather["list"][i]["main"]["temp_min"] - 273.15)
+            let maxtemp = ((9/5)*(evanstonWeather["list"][i]["main"]["temp_max"] - 273.15)-32)
+            let mintemp = ((9/5)*(evanstonWeather["list"][i]["main"]["temp_max"] - 273.15)-32)
             let todaysDate = month + "/" + day + "/2018, "
             console.log("The weather for today, " + todaysDate
                 + "is " + evanstonWeather["list"][i]["weather"][0]["description"] 
-                + " with highs of about " + maxtemp + " degrees Celsius and lows of about " 
-                + mintemp +" degrees Celsius")
+                + " with highs of about " + maxtemp.toFixed(2) + " degrees Fahrenheit and lows of about " 
+                + mintemp.toFixed(2) +" degrees Fahrenheit")
         }
     }
 
@@ -1325,6 +1325,7 @@ everydayHumidity()
 
 //6. 
 let daysofweek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+
 let date16temps = []
 let date17temps = []
 let date18temps = []
@@ -1332,18 +1333,54 @@ let date19temps = []
 let date20temps = []
 let date21temps = []
 
+let details16 = {}
+let details17 = {}
+let details18 = {}
+let details19 = {}
+let details20 = {}
+let details21 = {}
+
+let details ={}
+
+
+
 for (let i = 0; i < evanstonWeather.list.length; i++) {
-    let datetime = evanstonWeather.list[i].dt_txt
-    let split = datetime.split(" ")
-    let date = split[0]
     let day = new Date(evanstonWeather.list[i].dt_txt)
     let theday = day.getDay()
-    if (evanstonWeather["list"][i]["dt_txt"].includes("2018-03-16")) {
-        date16temps.push(evanstonWeather["list"][i]["main"]["temp_max"])
-        date16temps.push(evanstonWeather["list"][i]["main"]["temp_min"])
-        console.log(evanstonWeather["list"][i]["main"]["temp_max"])
-        console.log(date16temps)
-    }
-    console.log(date16temps)
+    
+    for (let b = 16; b <= 21; b++){
+      if (evanstonWeather["list"][i]["dt_txt"].includes("2018-03-" + b)) {
+            ///puts all temperatures into the appropriate array
+            let vardate = eval('date' + b + 'temps')
+            vardate.push(evanstonWeather["list"][i]["main"]["temp_max"])
+            vardate.push(evanstonWeather["list"][i]["main"]["temp_min"])
 
+            ///pulls and insert appropriate date and day into object
+            let dayday = daysofweek[theday]
+            let datetime = evanstonWeather.list[i].dt_txt
+            let split = datetime.split(" ")
+            let date = split[0]    
+            let fulldate = (dayday + ", " + date)
+            let vardetails = eval('details' + b)
+            vardetails.date = fulldate
+
+            ///sorting the temperatures and grabbing the highs and lows
+            let vardatetemps = eval('date' + b + 'temps')
+            vardatetemps.sort()
+            let hightemp = vardatetemps[(vardatetemps.length-1)]
+            let lowtemp = vardatetemps[0]
+            let hightempinF = ((9/5)*(hightemp - 273) + 32)
+            let lowtempinF = ((9/5)*(lowtemp - 273) + 32)
+            vardetails.highTemp = hightempinF.toFixed(2)
+            vardetails.lowTemp = lowtempinF.toFixed(2)
+
+            ///grabbing weather description
+            ///puts all 
+        }
+    }
 }
+console.log(details16)
+console.log(details17)
+console.log(details18)
+console.log(details19)
+console.log(details20)
