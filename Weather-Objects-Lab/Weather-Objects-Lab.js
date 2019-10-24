@@ -1325,11 +1325,25 @@ everydayHumidity()
 
 //6. 
 let daysofweek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+let date16temps = []
+let date17temps = []
+let date18temps = []
+let date19temps = []
+let date20temps = []
+let date21temps = []
 
 for (let i = 0; i < evanstonWeather.list.length; i++) {
-    let day = new Date(evanstonWeather.list[i].dt_txt)
-    let theday = day.getDay()
     let datetime = evanstonWeather.list[i].dt_txt
     let split = datetime.split(" ")
     let date = split[0]
+    let day = new Date(evanstonWeather.list[i].dt_txt)
+    let theday = day.getDay()
+    if (evanstonWeather["list"][i]["dt_txt"].includes("2018-03-16")) {
+        date16temps.push(evanstonWeather["list"][i]["main"]["temp_max"])
+        date16temps.push(evanstonWeather["list"][i]["main"]["temp_min"])
+        console.log(evanstonWeather["list"][i]["main"]["temp_max"])
+        console.log(date16temps)
+    }
+    console.log(date16temps)
+
 }
