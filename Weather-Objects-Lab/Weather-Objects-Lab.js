@@ -1340,9 +1340,16 @@ let details19 = {}
 let details20 = {}
 let details21 = {}
 
+let weather16 = []
+let weather17 = []
+let weather18 = []
+let weather19 = []
+let weather20 = []
+let weather21 = []
+
 let details ={}
-
-
+let frequency = {}
+let maxFrequency = ""
 
 for (let i = 0; i < evanstonWeather.list.length; i++) {
     let day = new Date(evanstonWeather.list[i].dt_txt)
@@ -1375,6 +1382,46 @@ for (let i = 0; i < evanstonWeather.list.length; i++) {
             vardetails.lowTemp = lowtempinF.toFixed(2)
 
             ///grabbing weather description
+            //stores all weather description into an array of that day
+            let varweather = eval('weather' + b)
+            varweather.push(evanstonWeather["list"][i]["weather"][0]["description"])
+
+            console.log(varweather)
+            function mode(array){
+                //if array is empty, return null
+                if(array.length == 0) {
+                    return null
+                }
+
+                //set default max as the first item of array with count of 1
+                let countDictionary = {}
+                let mostCommon = array[0] 
+                let highestCount = 1
+
+                    //iterates through all items of array
+                    for(let i = 0; i < array.length; i++){
+                        let element = array[i]
+
+                        //if item is not in count dictionary, add item and count
+                        if(countDictionary.element == null) {
+                            countDictionary.element = 1
+                        }
+                        //increment item count when found
+                        else {
+                            countDictionary[element]++  
+                        }
+                        //compares current item count to highest count and set new
+                        //new highest if it exceeds the count
+                        if(countDictionary.element > highestCount) {
+                            mostCommon = element
+                            highestCount = countDictionary.element
+                        }
+                    }
+                return mostCommon
+            }
+            vardetails.weather = mode(varweather)
+
+
             ///puts all 
         }
     }
