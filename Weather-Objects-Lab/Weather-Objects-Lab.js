@@ -1323,70 +1323,52 @@ let everydayHumidity = () => {
 }
 everydayHumidity()
 
-//6. 
+//6 and 7
 let daysofweek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
-let date16temps = []
-let date17temps = []
-let date18temps = []
-let date19temps = []
-let date20temps = []
-let date21temps = []
-
-let details16 = {}
-let details17 = {}
-let details18 = {}
-let details19 = {}
-let details20 = {}
-let details21 = {}
-
-let weather16 = []
-let weather17 = []
-let weather18 = []
-let weather19 = []
-let weather20 = []
-let weather21 = []
-
-let details ={}
-let frequency = {}
-let maxFrequency = ""
+let allDates = []
 
 for (let i = 0; i < evanstonWeather.list.length; i++) {
     let day = new Date(evanstonWeather.list[i].dt_txt)
     let theday = day.getDay()
     
-    for (let b = 16; b <= 21; b++){
-      if (evanstonWeather["list"][i]["dt_txt"].includes("2018-03-" + b)) {
-            ///puts all temperatures into the appropriate array
-            let vardate = eval('date' + b + 'temps')
-            vardate.push(evanstonWeather["list"][i]["main"]["temp_max"])
-            vardate.push(evanstonWeather["list"][i]["main"]["temp_min"])
-
+    //goes through every day of the calender and pulls information
+    for (let b = 1; b <= 31; b++){
+        //changes single digits into double digits with a 0 in front
+        let c = ("0" + b).slice(-2)
+      if (evanstonWeather["list"][i]["dt_txt"].includes("2018-03-" + c)) {
+            
+            if (allDates[c] == undefined) {
+                allDates[c] = []
+                allDates[c][4] = []
+                allDates[c][5] = []
+            }
             ///pulls and insert appropriate date and day into object
             let dayday = daysofweek[theday]
             let datetime = evanstonWeather.list[i].dt_txt
             let split = datetime.split(" ")
             let date = split[0]    
             let fulldate = (dayday + ", " + date)
-            let vardetails = eval('details' + b)
-            vardetails.date = fulldate
+            allDates[c][0] = fulldate
+
+            ///puts all temperatures of the same day into the appropriate array
+            allDates[c][4].push(evanstonWeather["list"][i]["main"]["temp_max"])
+            allDates[c][4].push(evanstonWeather["list"][i]["main"]["temp_min"])
 
             ///sorting the temperatures and grabbing the highs and lows
-            let vardatetemps = eval('date' + b + 'temps')
-            vardatetemps.sort()
-            let hightemp = vardatetemps[(vardatetemps.length-1)]
-            let lowtemp = vardatetemps[0]
+            allDates[c][4].sort()
+            let hightemp = allDates[c][4][(allDates[c][4].length-1)]
+            let lowtemp = allDates[c][4][0]
             let hightempinF = ((9/5)*(hightemp - 273) + 32)
             let lowtempinF = ((9/5)*(lowtemp - 273) + 32)
-            vardetails.highTemp = hightempinF.toFixed(2)
-            vardetails.lowTemp = lowtempinF.toFixed(2)
+            allDates[c][2] = {hightempinF: hightempinF.toFixed(2)}
+            allDates[c][3] = {lowtempinF: lowtempinF.toFixed(2)}
 
-            ///grabbing weather description
+
             //stores all weather description into an array of that day
-            let varweather = eval('weather' + b)
-            varweather.push(evanstonWeather["list"][i]["weather"][0]["description"])
+            allDates[c][5].push(evanstonWeather["list"][i]["weather"][0]["description"])
+            
 
-            console.log(varweather)
             function mode(array){
                 //if array is empty, return null
                 if(array.length == 0) {
@@ -1419,15 +1401,16 @@ for (let i = 0; i < evanstonWeather.list.length; i++) {
                     }
                 return mostCommon
             }
-            vardetails.weather = mode(varweather)
-
-
-            ///puts all 
-        }
+            allDates[c][1] = "Weather: " + mode(allDates[c][5])
+        }   
     }
+
 }
-console.log(details16)
-console.log(details17)
-console.log(details18)
-console.log(details19)
-console.log(details20)
+for (d = 0; d < allDates.length; d++) {
+        if (allDates[d] != undefined) {
+           allDates[d].splice(5,1)
+           allDates[d].splice(4,1)
+        }
+
+    }
+console.log(allDates)
