@@ -1324,19 +1324,20 @@ let everydayHumidity = () => {
 everydayHumidity()
 
 //6 and 7
+let getWeatherAarray = function(data) {
 let daysofweek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
 let allDates = []
 
-for (let i = 0; i < evanstonWeather.list.length; i++) {
-    let day = new Date(evanstonWeather.list[i].dt_txt)
+for (let i = 0; i < data.list.length; i++) {
+    let day = new Date(data.list[i].dt_txt)
     let theday = day.getDay()
     
     //goes through every day of the calender and pulls information
-    for (let b = 1; b <= 31; b++){
+    for (let b = 0; b <= 31; b++){
         //changes single digits into double digits with a 0 in front
         let c = ("0" + b).slice(-2)
-      if (evanstonWeather["list"][i]["dt_txt"].includes("2018-03-" + c)) {
+      if (data["list"][i]["dt_txt"].includes("2018-03-" + c)) {
             
             if (allDates[c] == undefined) {
                 allDates[c] = []
@@ -1345,15 +1346,15 @@ for (let i = 0; i < evanstonWeather.list.length; i++) {
             }
             ///pulls and insert appropriate date and day into object
             let dayday = daysofweek[theday]
-            let datetime = evanstonWeather.list[i].dt_txt
+            let datetime = data.list[i].dt_txt
             let split = datetime.split(" ")
             let date = split[0]    
             let fulldate = (dayday + ", " + date)
             allDates[c][0] = fulldate
 
             ///puts all temperatures of the same day into the appropriate array
-            allDates[c][4].push(evanstonWeather["list"][i]["main"]["temp_max"])
-            allDates[c][4].push(evanstonWeather["list"][i]["main"]["temp_min"])
+            allDates[c][4].push(data["list"][i]["main"]["temp_max"])
+            allDates[c][4].push(data["list"][i]["main"]["temp_min"])
 
             ///sorting the temperatures and grabbing the highs and lows
             allDates[c][4].sort()
@@ -1366,7 +1367,7 @@ for (let i = 0; i < evanstonWeather.list.length; i++) {
 
 
             //stores all weather description into an array of that day
-            allDates[c][5].push(evanstonWeather["list"][i]["weather"][0]["description"])
+            allDates[c][5].push(data["list"][i]["weather"][0]["description"])
             
 
             function mode(array){
@@ -1390,7 +1391,7 @@ for (let i = 0; i < evanstonWeather.list.length; i++) {
                         }
                         //increment item count when found
                         else {
-                            countDictionary[element]++  
+                            countDictionary.element += 1  
                         }
                         //compares current item count to highest count and set new
                         //new highest if it exceeds the count
@@ -1404,13 +1405,32 @@ for (let i = 0; i < evanstonWeather.list.length; i++) {
             allDates[c][1] = "Weather: " + mode(allDates[c][5])
         }   
     }
-
 }
 for (d = 0; d < allDates.length; d++) {
         if (allDates[d] != undefined) {
            allDates[d].splice(5,1)
            allDates[d].splice(4,1)
         }
-
     }
-console.log(allDates)
+return (allDates)
+}
+
+let mydata = getWeatherAarray(evanstonWeather)
+console.log(mydata)
+
+
+let printForcast = function (array) {
+    console.log("5 day forcast")
+    for (d = 0; d <= array.length; d++) {
+            if (array[d] != undefined) {
+            console.log("\n---------------------------")
+            console.log("Date: " + array[d][0])
+            console.log(array[d][1])
+            console.log("High Temp: " + array[d][2].hightempinF + "°F")
+            console.log("Low Temp: " + array[d][3].lowtempinF + "°F")
+            console.log("---------------------------\n")
+        }
+    }
+}    
+
+printForcast(mydata)
